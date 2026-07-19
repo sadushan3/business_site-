@@ -7,7 +7,7 @@ import path from 'node:path'
 const siteConfigPath = path.resolve(__dirname, '.figma/make/site.json')
 const siteConfiguration = existsSync(siteConfigPath)
   ? (JSON.parse(readFileSync(siteConfigPath, 'utf8')) as FigmaSiteConfiguration)
-  : {}
+  : { title: 'Sadurshan | Website & AI Developer' }
 
 // Vite config — https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
