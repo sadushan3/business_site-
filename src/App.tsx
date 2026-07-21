@@ -48,6 +48,7 @@ import {
   ChevronRight,
   Circle,
 } from "lucide-react";
+import profilePhoto from "./image.png";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -384,7 +385,7 @@ function Hero() {
           </div>
         </div>
 
-        {/* Right: AI workspace illustration */}
+        {/* Right: professional portrait */}
         <div className="relative flex items-center justify-center float-anim">
           <HeroIllustration />
         </div>
@@ -402,72 +403,37 @@ function Hero() {
 
 function HeroIllustration() {
   return (
-    <div className="relative w-full max-w-md">
-      {/* Main card */}
-      <div className="glass rounded-2xl p-6 shadow-2xl" style={{ border: "1px solid rgba(59,130,246,0.2)" }}>
-        {/* Browser chrome */}
-        <div className="flex items-center gap-2 mb-4 pb-3" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-          <div className="w-3 h-3 rounded-full bg-red-500 opacity-70" />
-          <div className="w-3 h-3 rounded-full bg-yellow-500 opacity-70" />
-          <div className="w-3 h-3 rounded-full bg-green-500 opacity-70" />
-          <div className="flex-1 mx-4 h-5 rounded" style={{ background: "rgba(255,255,255,0.05)" }} />
-        </div>
-
-        {/* Code block */}
-        <div className="rounded-xl p-4 text-xs mb-4" style={{ background: "rgba(0,0,0,0.4)", fontFamily: "var(--font-mono)" }}>
-          <div className="flex gap-3 mb-1">
-            <span style={{ color: "#8B5CF6" }}>const</span>
-            <span style={{ color: "#06B6D4" }}>solution</span>
-            <span style={{ color: "#94A3B8" }}>=</span>
-            <span style={{ color: "#3B82F6" }}>await</span>
-          </div>
-          <div className="pl-4">
-            <span style={{ color: "#F59E0B" }}>AI</span>
-            <span style={{ color: "#94A3B8" }}>.</span>
-            <span style={{ color: "#10B981" }}>build</span>
-            <span style={{ color: "#94A3B8" }}>({"{"}</span>
-          </div>
-          <div className="pl-8">
-            <span style={{ color: "#94A3B8" }}>idea: </span>
-            <span style={{ color: "#F1F5F9" }}>"your vision"</span>
-            <span style={{ color: "#94A3B8" }}>,</span>
-          </div>
-          <div className="pl-8">
-            <span style={{ color: "#94A3B8" }}>tech: </span>
-            <span style={{ color: "#F1F5F9" }}>"modern stack"</span>
-          </div>
-          <div className="pl-4">
-            <span style={{ color: "#94A3B8" }}>{"})"}</span>
-          </div>
-        </div>
-
-        {/* Stats mini row */}
-        <div className="grid grid-cols-3 gap-2">
-          {[
-            { label: "Performance", val: "98", col: "#10B981" },
-            { label: "Accuracy", val: "94%", col: "#3B82F6" },
-            { label: "Uptime", val: "99.9%", col: "#8B5CF6" },
-          ].map(({ label, val, col }) => (
-            <div key={label} className="rounded-lg p-3 text-center" style={{ background: "rgba(255,255,255,0.04)" }}>
-              <div className="font-bold text-lg" style={{ color: col, fontFamily: "var(--font-mono)" }}>{val}</div>
-              <div className="text-xs mt-0.5" style={{ color: "#64748B" }}>{label}</div>
-            </div>
-          ))}
+    <div className="relative w-full max-w-md px-4 sm:px-0">
+      <div className="absolute -inset-3 rounded-[2rem] opacity-60 blur-xl"
+        style={{ background: "linear-gradient(135deg, rgba(59,130,246,0.35), rgba(139,92,246,0.25), rgba(6,182,212,0.2))" }} />
+      <div className="relative overflow-hidden rounded-[2rem] shadow-2xl"
+        style={{ border: "1px solid rgba(255,255,255,0.16)", background: "#0D1526" }}>
+        <img
+          src={profilePhoto}
+          alt="Selvakumar Sadurshan"
+          className="block h-[520px] w-full object-cover sm:h-[590px]"
+          style={{ objectPosition: "center 24%" }}
+          fetchPriority="high"
+        />
+        <div className="absolute inset-x-0 bottom-0 h-40"
+          style={{ background: "linear-gradient(to top, rgba(8,13,26,0.92), transparent)" }} />
+        <div className="absolute inset-x-0 bottom-0 p-6">
+          <p className="text-xl font-bold text-white" style={{ fontFamily: "var(--font-display)" }}>Selvakumar Sadurshan</p>
+          <p className="mt-1 text-sm" style={{ color: "#CBD5E1" }}>Website &amp; AI/ML Developer</p>
         </div>
       </div>
 
-      {/* Floating badges */}
-      <div className="absolute -left-12 top-6 glass rounded-xl px-4 py-2.5 text-xs font-semibold shadow-xl"
+      <div className="absolute -left-4 top-8 glass rounded-xl px-4 py-2.5 text-xs font-semibold shadow-xl sm:-left-12"
         style={{ border: "1px solid rgba(139,92,246,0.3)", color: "#C4B5FD" }}>
         <Brain size={14} className="inline mr-1.5" style={{ color: "#8B5CF6" }} />
         AI / ML
       </div>
-      <div className="absolute -right-10 bottom-16 glass rounded-xl px-4 py-2.5 text-xs font-semibold shadow-xl"
+      <div className="absolute -right-2 bottom-20 glass rounded-xl px-4 py-2.5 text-xs font-semibold shadow-xl sm:-right-10"
         style={{ border: "1px solid rgba(6,182,212,0.3)", color: "#67E8F9" }}>
         <Globe size={14} className="inline mr-1.5" style={{ color: "#06B6D4" }} />
         Sri Lanka
       </div>
-      <div className="absolute -right-8 top-8 glass rounded-xl px-3 py-2 text-xs font-semibold shadow-xl"
+      <div className="absolute -right-1 top-6 glass rounded-xl px-3 py-2 text-xs font-semibold shadow-xl sm:-right-8"
         style={{ border: "1px solid rgba(16,185,129,0.3)", color: "#6EE7B7" }}>
         <Zap size={12} className="inline mr-1" style={{ color: "#10B981" }} />
         Available
@@ -541,7 +507,7 @@ function About() {
               <GradientButton onClick={() => document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" })}>
                 Start a Project
               </GradientButton>
-              <a href="/cv.pdf" download className="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-medium transition-all"
+              <a href={`${import.meta.env.BASE_URL}cv.pdf`} download="Selvakumar-Sadurshan-CV.pdf" className="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-medium transition-all"
                 style={{ border: "1px solid rgba(255,255,255,0.15)", color: "#94A3B8" }}
                 onMouseEnter={e => (e.currentTarget as HTMLElement).style.borderColor = "rgba(59,130,246,0.5)"}
                 onMouseLeave={e => (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.15)"}>
