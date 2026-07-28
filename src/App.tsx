@@ -5,7 +5,6 @@ import {
   Search, ShieldCheck, ShoppingBag, Smartphone, Sparkles,
   Target, Workflow, X, Zap, Quote, Mail, MapPin,
 } from "lucide-react";
-import sivaKajanPortrait from "./image.png";
 
 const PHONE = "94767803584";
 const EMAIL = "sadushansadu33@gmail.com";
@@ -129,8 +128,8 @@ function App() {
       <section className="work light-section" id="work"><div className="container">
         <div className="work-heading"><SectionIntro kicker="Selected work" title={<>Built for impact.<br/><span>Designed to perform.</span></>} text="A glimpse at the kind of high-performance experiences we create for ambitious brands."/><Button href="#contact" secondary>Discuss your project <ArrowRight size={16}/></Button></div>
         <div className="projects">
-          <article className="project project-main reveal"><div className="project-preview repairme-preview"><img src="/a.png" alt="RepairMe home page featuring a verified technician"/></div><div className="project-meta"><div><span>HOME SERVICES · WEB DESIGN · PLATFORM</span><h3>RepairMe — Home</h3></div><strong>FAST<small>verified service</small></strong></div></article>
-          <article className="project reveal"><div className="project-preview repairme-preview repairme-services"><img src="/image.png" alt="RepairMe services booking page"/></div><div className="project-meta"><div><span>HOME SERVICES · UX · BOOKING</span><h3>RepairMe — Services</h3></div><strong>30 DAY<small>service warranty</small></strong></div></article>
+          <article className="project project-main reveal"><div className="project-preview repairme-preview"><img src={`${import.meta.env.BASE_URL}a.png`} alt="RepairMe home page featuring a verified technician"/></div><div className="project-meta"><div><span>HOME SERVICES · WEB DESIGN · PLATFORM</span><h3>RepairMe — Home</h3></div><strong>FAST<small>verified service</small></strong></div></article>
+          <article className="project reveal"><div className="project-preview repairme-preview repairme-services"><img src={`${import.meta.env.BASE_URL}image.png`} alt="RepairMe services booking page"/></div><div className="project-meta"><div><span>HOME SERVICES · UX · BOOKING</span><h3>RepairMe — Services</h3></div><strong>30 DAY<small>service warranty</small></strong></div></article>
         </div>
       </div></section>
 
@@ -140,7 +139,7 @@ function App() {
 
       <section className="industries"><div className="container industry-grid"><div className="reveal"><SectionIntro kicker="Industries" title={<>Built around your<br/><span>customer journey.</span></>} text="We learn the mechanics of your business, then create the right mix of design, technology and automation to unlock growth."/><Button href="#contact">Tell us about your business <ArrowRight size={16}/></Button></div><div className="industry-list reveal">{industries.map((x,i)=><div key={x}><span>0{i+1}</span><h3>{x}</h3><MoveUpRight/></div>)}</div></div></section>
 
-      <section className="testimonial light-section"><div className="container testimonial-box reveal"><Quote/><div className="stars">★★★★★</div><blockquote>“Nexora didn't just give us a beautiful website. They rebuilt the way customers find us, trust us and take action. The difference was visible within weeks.”</blockquote><div className="testimonial-person"><img src={sivaKajanPortrait} alt="Siva Kajan"/><div><strong>Siva Kajan</strong><small>Founder of RepairMe</small></div></div></div></section>
+      <section className="testimonial light-section"><div className="container testimonial-box reveal"><Quote/><div className="stars">★★★★★</div><blockquote>“Nexora didn't just give us a beautiful website. They rebuilt the way customers find us, trust us and take action. The difference was visible within weeks.”</blockquote><div className="testimonial-person"><div><strong>Siva Kajan</strong><small>Founder of RepairMe</small></div></div></div></section>
 
       <section className="pricing light-section"><div className="container"><SectionIntro kicker="Ways to work together" title={<>Choose your <span>growth path.</span></>} text="Flexible engagements designed around where you are now—and where you want to go." center/><div className="pricing-grid">
         <article className="price-card reveal"><span className="price-icon"><Code2/></span><small>LAUNCH</small><h3>Growth Website</h3><p>For businesses ready to turn their website into a reliable sales asset.</p><strong>From $2,000</strong><ul>{["Strategy & conversion copy","Premium responsive design","Fast, SEO-ready development","Analytics & lead capture"].map(x=><li key={x}><Check/>{x}</li>)}</ul><Button href="#contact" secondary>Explore website projects <ArrowRight/></Button></article>
