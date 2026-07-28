@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sadushan3.github.io/business_site-/sitemap.xml
