@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import {
-  ArrowRight, BarChart3, Bot, BriefcaseBusiness, Check, ChevronDown,
+  ArrowRight, BarChart3, Bot, Check, ChevronDown,
   Code2, Gauge, Globe2, Layers3, Menu, MessageCircle, MoveUpRight,
   Search, ShieldCheck, ShoppingBag, Smartphone, Sparkles,
   Target, Workflow, X, Zap, Quote, Mail, MapPin,
@@ -8,6 +8,12 @@ import {
 
 const PHONE = "94767803584";
 const EMAIL = "sadushansadu33@gmail.com";
+
+type Feedback = { id: string; name: string; company: string; message: string; rating: number };
+
+const starterFeedback: Feedback[] = [
+  { id: "repairme", name: "Siva Kajan", company: "Founder of RepairMe", message: "Nexora didn't just give us a beautiful website. They rebuilt the way customers find us, trust us and take action.", rating: 5 },
+];
 
 const services = [
   { icon: Globe2, title: "Premium Website Development", text: "High-converting digital experiences engineered to turn attention into qualified enquiries.", tag: "Design + Development", accent: "blue" },
@@ -24,13 +30,13 @@ const process = [
   ["01", "Discover", "We uncover your goals, customers, bottlenecks and biggest growth opportunities."],
   ["02", "Strategize", "We turn research into a focused roadmap with clear priorities and measurable outcomes."],
   ["03", "Create", "We design, build and integrate your new growth engine with meticulous attention to detail."],
-  ["04", "Optimize", "We launch, measure and improve—so your investment keeps working harder over time."],
+  ["04", "Optimize", "We launch, measure and improve—so your website keeps working harder over time."],
 ];
 
 const industries = ["Restaurants", "Hotels", "Real Estate", "Law Firms", "Medical Clinics", "E-commerce", "Construction", "Startups"];
 
 const faqs = [
-  ["How much does a project cost?", "Most growth website projects begin at $2,000. Larger websites, e-commerce platforms and AI automation are scoped around your goals, integrations and timeline."],
+  ["What is included in a growth website?", "Every growth website is shaped around your goals and can include strategy, conversion-focused copy, responsive design, SEO-ready development, analytics and lead capture."],
   ["How long does a website take?", "A focused marketing website usually takes 4–8 weeks. More complex platforms can take 8–14 weeks. You receive a clear delivery plan before work begins."],
   ["Can you work with international businesses?", "Yes. We work remotely with clients across the USA, UK, Canada, Australia and Europe, with a communication rhythm built around your time zone."],
   ["Do you provide support after launch?", "Absolutely. We offer ongoing care, performance monitoring, SEO, conversion optimization and product improvements after launch."],
@@ -53,8 +59,14 @@ function App() {
   const [scrolled, setScrolled] = useState(false);
   const [faq, setFaq] = useState(0);
   const [sent, setSent] = useState(false);
+  const [feedback, setFeedback] = useState<Feedback[]>(starterFeedback);
+  const [feedbackSent, setFeedbackSent] = useState(false);
 
   useEffect(() => {
+    const savedFeedback = localStorage.getItem("nexora-feedback");
+    if (savedFeedback) {
+      try { setFeedback(JSON.parse(savedFeedback)); } catch { localStorage.removeItem("nexora-feedback"); }
+    }
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll(); window.addEventListener("scroll", onScroll, { passive: true });
     const observer = new IntersectionObserver((entries) => entries.forEach(e => e.isIntersecting && e.target.classList.add("revealed")), { threshold: .12 });
@@ -65,12 +77,30 @@ function App() {
   const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    const message = `Hello Nexora! I'd like to discuss a project.%0A%0AName: ${data.get("name")}%0AEmail: ${data.get("email")}%0ACompany: ${data.get("company") || "—"}%0AService: ${data.get("service")}%0ABudget: ${data.get("budget")}%0A%0AProject: ${data.get("message")}`;
+    const message = `Hello Nexora! I'd like to discuss a project.%0A%0AName: ${data.get("name")}%0AEmail: ${data.get("email")}%0ACompany: ${data.get("company") || "—"}%0AService: ${data.get("service")}%0A%0AProject: ${data.get("message")}`;
     setSent(true);
     window.open(`https://wa.me/${PHONE}?text=${message}`, "_blank", "noopener,noreferrer");
   };
 
-  const nav = ["Services", "Work", "Process", "About", "Insights"];
+  const submitFeedback = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const entry: Feedback = {
+      id: `${Date.now()}`,
+      name: String(data.get("feedback-name") || "").trim(),
+      company: String(data.get("feedback-company") || "").trim(),
+      message: String(data.get("feedback-message") || "").trim(),
+      rating: Number(data.get("feedback-rating")),
+    };
+    const updated = [entry, ...feedback];
+    setFeedback(updated);
+    localStorage.setItem("nexora-feedback", JSON.stringify(updated));
+    setFeedbackSent(true);
+    form.reset();
+  };
+
+  const nav = ["Services", "Work", "Process", "About", "Feedback"];
   return <div className="site-shell">
     <nav className={`nav ${scrolled ? "nav-scrolled" : ""}`} aria-label="Main navigation">
       <div className="nav-inner"><Logo light />
@@ -133,7 +163,7 @@ function App() {
         </div>
       </div></section>
 
-      <section className="results"><div className="container"><div className="results-head reveal"><span className="eyebrow"><span/> Results, not vanity</span><h2>Digital experiences that<br/><em>move the numbers.</em></h2></div><div className="result-grid">{[["187%","Average lead growth"],["3.2×","More conversions"],["98","Average speed score"],["40+","Hours saved monthly"]].map((r,i)=><div key={r[1]} className="result reveal"><span>0{i+1}</span><strong>{r[0]}</strong><p>{r[1]}</p></div>)}</div><p className="disclaimer">Representative outcomes vary by project, market and investment.</p></div></section>
+      <section className="results"><div className="container"><div className="results-head reveal"><span className="eyebrow"><span/> Results, not vanity</span><h2>Digital experiences that<br/><em>move the numbers.</em></h2></div><div className="result-grid">{[["187%","Average lead growth"],["3.2×","More conversions"],["98","Average speed score"],["40+","Hours saved monthly"]].map((r,i)=><div key={r[1]} className="result reveal"><span>0{i+1}</span><strong>{r[0]}</strong><p>{r[1]}</p></div>)}</div><p className="disclaimer">Representative outcomes vary by project and market.</p></div></section>
 
       <section className="process light-section" id="process"><div className="container"><SectionIntro kicker="Our process" title={<>Clear. Collaborative. <span>Built to win.</span></>} text="No black boxes or unnecessary complexity. Just a proven path from opportunity to measurable growth." center/><div className="process-grid">{process.map(([num,title,text],i)=><div className="process-step reveal" key={num}><div className="process-number"><span>{num}</span>{i<3&&<i/>}</div><h3>{title}</h3><p>{text}</p></div>)}</div></div></section>
 
@@ -141,16 +171,22 @@ function App() {
 
       <section className="testimonial light-section"><div className="container testimonial-box reveal"><Quote/><div className="stars">★★★★★</div><blockquote>“Nexora didn't just give us a beautiful website. They rebuilt the way customers find us, trust us and take action. The difference was visible within weeks.”</blockquote><div className="testimonial-person"><div><strong>Siva Kajan</strong><small>Founder of RepairMe</small></div></div></div></section>
 
-      <section className="pricing light-section"><div className="container"><SectionIntro kicker="Ways to work together" title={<>Choose your <span>growth path.</span></>} text="Flexible engagements designed around where you are now—and where you want to go." center/><div className="pricing-grid">
-        <article className="price-card reveal"><span className="price-icon"><Code2/></span><small>LAUNCH</small><h3>Growth Website</h3><p>For businesses ready to turn their website into a reliable sales asset.</p><strong>From $2,000</strong><ul>{["Strategy & conversion copy","Premium responsive design","Fast, SEO-ready development","Analytics & lead capture"].map(x=><li key={x}><Check/>{x}</li>)}</ul><Button href="#contact" secondary>Explore website projects <ArrowRight/></Button></article>
-        <article className="price-card featured reveal"><div className="popular">MOST POPULAR</div><span className="price-icon"><Sparkles/></span><small>SCALE</small><h3>AI Growth System</h3><p>For ambitious companies ready to automate and accelerate growth.</p><strong>Custom scope</strong><ul>{["Everything in Growth Website","AI chatbot & qualification","Business automation workflows","Ongoing CRO & reporting"].map(x=><li key={x}><Check/>{x}</li>)}</ul><Button href="#contact">Book a strategy call <ArrowRight/></Button></article>
-        <article className="price-card reveal"><span className="price-icon"><BriefcaseBusiness/></span><small>PARTNER</small><h3>Growth Partnership</h3><p>For teams that want continuous strategy, execution and optimization.</p><strong>Monthly retainer</strong><ul>{["Dedicated growth roadmap","SEO & content support","Conversion experiments","Priority design & development"].map(x=><li key={x}><Check/>{x}</li>)}</ul><Button href="#contact" secondary>Discuss a partnership <ArrowRight/></Button></article>
+      <section className="feedback-section light-section" id="feedback"><div className="container">
+        <SectionIntro kicker="Customer feedback" title={<>What our customers <span>have to say.</span></>} text="Worked with us? Share your experience and help others learn what it is like to work with Nexora." center/>
+        <div className="feedback-layout">
+          <form className="feedback-form reveal" onSubmit={submitFeedback}><div className="form-head"><small>SHARE YOUR EXPERIENCE</small><h3>Leave your feedback.</h3></div><label>Your name<input required name="feedback-name" maxLength={60} placeholder="Your name"/></label><label>Company or role<input name="feedback-company" maxLength={80} placeholder="Company or role (optional)"/></label><label>Your rating<select required name="feedback-rating" defaultValue="5"><option value="5">5 stars — Excellent</option><option value="4">4 stars — Very good</option><option value="3">3 stars — Good</option><option value="2">2 stars — Fair</option><option value="1">1 star — Poor</option></select></label><label>Your feedback<textarea required name="feedback-message" rows={5} minLength={10} maxLength={500} placeholder="Tell us about your experience"/></label><button className="button" type="submit">Publish feedback <ArrowRight/></button>{feedbackSent&&<p className="form-success"><Check/> Thank you! Your feedback is now showing.</p>}</form>
+          <div className="feedback-wall" aria-live="polite">{feedback.map(item=><article className="feedback-card reveal revealed" key={item.id}><div className="feedback-stars" aria-label={`${item.rating} out of 5 stars`}>{"★".repeat(item.rating)}<span>{"★".repeat(5-item.rating)}</span></div><blockquote>“{item.message}”</blockquote><div className="feedback-person"><span>{item.name.slice(0,1).toUpperCase()}</span><div><strong>{item.name}</strong>{item.company&&<small>{item.company}</small>}</div></div></article>)}</div>
+        </div>
+      </div></section>
+
+      <section className="pricing light-section"><div className="container"><SectionIntro kicker="Grow your business online" title={<>Build your <span>growth website.</span></>} text="A focused website designed to attract the right visitors and turn more of them into customers." center/><div className="pricing-grid">
+        <article className="price-card reveal"><span className="price-icon"><Code2/></span><small>GROW</small><h3>Growth Website</h3><p>For businesses ready to turn their website into a reliable sales asset.</p><ul>{["Strategy & conversion copy","Premium responsive design","Fast, SEO-ready development","Analytics & lead capture"].map(x=><li key={x}><Check/>{x}</li>)}</ul><Button href="#contact" secondary>Explore website projects <ArrowRight/></Button></article>
       </div></div></section>
 
       <section className="faq light-section" id="insights"><div className="container faq-grid"><SectionIntro kicker="Questions, answered" title={<>Everything you need<br/>to know before <span>we start.</span></>} text="Still have a question? Book a free, no-pressure strategy call and we'll talk it through."/><div>{faqs.map(([q,a],i)=><div className={`faq-item ${faq===i?"open":""}`} key={q}><button onClick={()=>setFaq(faq===i?-1:i)} aria-expanded={faq===i}><span>{q}</span><ChevronDown/></button><div className="faq-answer"><p>{a}</p></div></div>)}</div></div></section>
 
-      <section className="contact" id="contact"><div className="contact-glow"/><div className="container contact-grid"><div className="reveal"><span className="eyebrow light"><span/> Let's build something valuable</span><h2>Ready to turn your digital presence into a <span>growth engine?</span></h2><p>Tell us where you are, where you want to go and what is getting in the way. We'll come back with clear next steps—no hard sell.</p><div className="contact-points"><span><Check/> Free 30-minute strategy call</span><span><Check/> Practical growth opportunities</span><span><Check/> Clear scope, timeline and investment</span></div><div className="contact-direct"><a href={`mailto:${EMAIL}`}><Mail/> {EMAIL}</a><span><MapPin/> Sri Lanka · Working worldwide</span></div></div>
-        <form className="contact-form reveal" onSubmit={submit}><div className="form-head"><small>START A CONVERSATION</small><h3>Tell us about your project.</h3></div><div className="field-row"><label>Your name<input required name="name" placeholder="Jane Smith"/></label><label>Work email<input required type="email" name="email" placeholder="jane@company.com"/></label></div><label>Company name<input name="company" placeholder="Your company"/></label><div className="field-row"><label>What do you need?<select required name="service" defaultValue=""><option value="" disabled>Select a service</option>{services.map(s=><option key={s.title}>{s.title}</option>)}</select></label><label>Investment range<select required name="budget" defaultValue=""><option value="" disabled>Select a range</option><option>$2k – $5k</option><option>$5k – $10k</option><option>$10k – $20k</option><option>$20k+</option></select></label></div><label>Tell us about your goals<textarea required name="message" rows={4} placeholder="What would success look like?"/></label><button className="button" type="submit">Send project details <ArrowRight/></button>{sent&&<p className="form-success"><Check/> WhatsApp opened—send the pre-filled message to complete your enquiry.</p>}<small className="form-note"><ShieldCheck/> Your details stay private. We usually reply within one business day.</small></form>
+      <section className="contact" id="contact"><div className="contact-glow"/><div className="container contact-grid"><div className="reveal"><span className="eyebrow light"><span/> Let's build something valuable</span><h2>Ready to turn your digital presence into a <span>growth engine?</span></h2><p>Tell us where you are, where you want to go and what is getting in the way. We'll come back with clear next steps—no hard sell.</p><div className="contact-points"><span><Check/> Free 30-minute strategy call</span><span><Check/> Practical growth opportunities</span><span><Check/> Clear scope and timeline</span></div><div className="contact-direct"><a href={`mailto:${EMAIL}`}><Mail/> {EMAIL}</a><span><MapPin/> Sri Lanka · Working worldwide</span></div></div>
+        <form className="contact-form reveal" onSubmit={submit}><div className="form-head"><small>START A CONVERSATION</small><h3>Tell us about your project.</h3></div><div className="field-row"><label>Your name<input required name="name" placeholder="Jane Smith"/></label><label>Work email<input required type="email" name="email" placeholder="jane@company.com"/></label></div><label>Company name<input name="company" placeholder="Your company"/></label><label>What do you need?<select required name="service" defaultValue=""><option value="" disabled>Select a service</option>{services.map(s=><option key={s.title}>{s.title}</option>)}</select></label><label>Tell us about your goals<textarea required name="message" rows={4} placeholder="What would success look like?"/></label><button className="button" type="submit">Send project details <ArrowRight/></button>{sent&&<p className="form-success"><Check/> WhatsApp opened—send the pre-filled message to complete your enquiry.</p>}<small className="form-note"><ShieldCheck/> Your details stay private. We usually reply within one business day.</small></form>
       </div></section>
     </main>
 
